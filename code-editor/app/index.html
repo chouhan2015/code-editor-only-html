@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OnDemand Language Compiler</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <style>
+        body{
+            font-family: "Oxygen","Oxygen","Segoe UI","Helvetica Neue",sans-serif;
+            font-weight: 300;
+            color: #3e3e40;
+        }
+        .btn-success{
+            border-radius: 0px;
+            margin-top: 8px;
+            margin-left: 10px;
+            margin-right: 10px;
+            width:100px;
+            background-color: #1A7B72;
+            border-color: #1A7B72;
+        }
+
+        .btn-warning{
+            border-radius: 0px;
+            margin-left: 10px;
+            margin-right: 10px;
+            width:100px;
+            margin-top: 8px;
+        }
+        .designing-div{
+            width:100%;
+            height:100%;
+            height:300px;
+            background-color: #354551;
+            color:white;
+            margin-top: -20px;
+
+        }
+        .navbar {
+            border-radius: 0px;
+            background-color: #152B39;
+            color:white;
+            border-color:#152B39;
+        }
+        .navbar-brand{
+            color:white;
+        }
+        .divPlaceholder{
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            padding: 0 3px;
+            border: solid #CACACA 1px;
+            font-size: 10px;
+            color: #CACACA
+        }
+        .col-md-6{
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 0;
+            padding-top: 0;
+
+        }
+        .output-designing-div{
+            width:100%;
+            height:100%;
+            height:300px;
+            margin-top: -20px;
+        }
+    </style>
+    <script>
+        var startScriptTag = "<script src='";
+        var endScriptTag = "'></";
+            endScriptTag += "script>";
+        var linkStartTag =  "<link rel='stylesheet' href='";
+        var linkEndTag =  "'/>";
+
+        var languageReferance = [
+            {
+                value: 1,
+                name: 'Angular JS',
+                cdnLink: startScriptTag + "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js" + endScriptTag
+            },
+            {
+                value: 2,
+                name: 'Jquery',
+                cdnLink: startScriptTag + "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" + endScriptTag
+            },
+            {
+                value: 3,
+                name: 'Bootstrap Stylesheet',
+                cdnLink: linkStartTag + "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"+ linkEndTag
+            },
+            {
+                value: 4,
+                name: 'Bootstrap Script',
+                cdnLink: startScriptTag + "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" + endScriptTag
+            }
+           ];
+
+        function compile() {
+            try{
+                var htmlSection  = document.getElementById("myHtmlSection").value;
+                var cssSection  = document.getElementById("myCssSection").value;
+                var jsSection  = document.getElementById("myJsSection").value;
+                var selectedLaunguage  = document.getElementById("ddlLanguage").value;
+                var html ="<html>";
+                html += "<head>";
+
+                // Adding language cdn link Language based selection
+                if(selectedLaunguage == 1){
+                    html += languageReferance[0].cdnLink;
+
+                }else if(selectedLaunguage == 2){
+                    html += languageReferance[1].cdnLink;
+
+                }else if(selectedLaunguage == 3){
+                    html += languageReferance[2].cdnLink;
+                    html += languageReferance[3].cdnLink;
+
+                }else if(selectedLaunguage == 4){
+                    html += languageReferance[2].cdnLink;
+                    html += languageReferance[3].cdnLink;
+                }
+
+                html += "<style>";
+                html += cssSection;
+                html += "</style></head><body>"
+                html += htmlSection;
+                html += "<script type='text/javascript'>";
+                html += jsSection;
+                html += "</";
+                html += "script></body></html>";
+                document.getElementById("resultSection").srcdoc = html;
+
+            }catch(ex){
+                alert(ex);
+            }
+        }
+
+        function reset(){
+            document.getElementById("myHtmlSection").value  = "";
+            document.getElementById("myCssSection").value  = "";
+            document.getElementById("myJsSection").value = "";
+        }
+
+   </script>
+
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">OnDemand Language Compiler</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <select class="form-control navbar-form" id="ddlLanguage">
+                    <option value="">Select language</option>
+                    <option value="1">Angular js</option>
+                    <option value="2">Jquery</option>
+                    <option value="3">Bootstrap JS</option>
+
+                </select>
+            </li>
+            <li class="active"><button class="btn btn-success" onclick="compile();">RUN  <span><i class="fa fa-play" aria-hidden="true"></i></span></button>
+
+            </li>
+            <li><button class="btn btn-warning" onclick="reset();">RESET <span><i class="fa fa-refresh" aria-hidden="true"></i></span></li></button>
+
+
+            </form>
+        </ul>
+
+    </div>
+</nav>
+<div class="col-md-6">
+    <!--<h4>HTML Goes Here</h4>-->
+    <textarea id ='myHtmlSection' class="designing-div" placeholder="HTML"></textarea>
+    <div class="divPlaceholder" style="display: block;">HTML</div>
+
+</div>
+<div class="col-md-6">
+    <!--<h4>CSS Goes Here</h4>-->
+    <textarea id ='myCssSection' class="designing-div" placeholder="CSS"></textarea>
+    <div class="divPlaceholder" style="display: block;">CSS</div>
+</div>
+
+<div class="col-md-6">
+    <!--<h4>JS Goes Here....</h4>-->
+    <textarea id ='myJsSection' class="designing-div" placeholder="JS"></textarea>
+    <div class="divPlaceholder" style="display: block;">Java Script</div>
+</div>
+<div class="col-md-6">
+    <!--<h4>Output</h4>-->
+    <iframe id="resultSection" class="output-designing-div"></iframe>
+    <div class="divPlaceholder" style="display: block;">Output</div>
+</div>
+
+
+
+
+</body>
+</html>
